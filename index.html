@@ -1,0 +1,68 @@
+<html>
+<head>
+  <meta charset=utf-8 />
+  <title>Esri Leaflet Starter App</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+  <!-- Load Leaflet from CDN-->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet-src.js"></script>
+
+  <script src="https://unpkg.com/esri-leaflet@2.0.4"></script>
+
+  <script src="https://unpkg.com/esri-leaflet-renderers@2.0.2"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Helvetica;
+    }
+    #mapDiv {
+      position: absolute;
+      top: 43px;
+      bottom: 0;
+      right: 0;
+      left: 0;
+    }
+    #title {
+      display: inline-block;
+      width: 100%;
+      padding: 10px;
+      font-size: 20px;
+      background-color: #843520;
+      color: #f8f8f8;
+    }
+  </style>
+</head>
+<body>
+
+<div id="title">St. Louis Public Housing and Occupancy Data</div>
+
+<div id="mapDiv"></div>
+
+<script type='text/javascript'>
+
+    var Project1Map_1 = L.map('mapDiv');
+    Project1Map_1.setView([38.6, -90.3], 11);
+    L.esri.basemapLayer('DarkGray').addTo(Project1Map_1);
+
+    // use panes to control the order that layers are displayed
+    Project1Map_1.createPane('neighborhoods');
+    var ACS_Data = L.esri.featureLayer({
+      url: 'https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Housing_Occupancy_and_Tenure_Unit_Value_Boundaries/FeatureServer/2',
+      pane: 'neighborhoods'
+    });
+    ACS_Data.addTo(Project1Map_1);
+  
+  Project1Map_1.createPane('housingpoints');
+  var HUD_data = L.esri.featureLayer({
+    url: 'https://services.arcgis.com/VTyQ9soqVukalItT/arcgis/rest/services/Public_Housing_Buildings/FeatureServer/10',
+    pane: 'housingpoints'
+  });
+  HUD_data.addTo(Project1Map_1);
+
+</script>
+
+</body>
+</html>
